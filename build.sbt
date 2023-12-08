@@ -51,6 +51,8 @@ resolvers +=
 
 libraryDependencies ++= Seq(
   compilerPlugin(Libraries.kindProjector),
+  Libraries.enumeratum,
+  Libraries.enumeratumCirce,
   Libraries.cats,
   Libraries.catsEffect,
   Libraries.fs2,

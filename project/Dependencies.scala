@@ -15,11 +15,13 @@ object Dependencies {
     val scalaCheck     = "1.15.3"
     val scalaTest      = "3.2.7"
     val catsScalaCheck = "0.3.2"
+    val enumeratum     = "1.7.3"
   }
 
   object Libraries {
-    def circe(artifact: String): ModuleID  = "io.circe"   %% artifact % Versions.circe
-    def http4s(artifact: String): ModuleID = "org.http4s" %% artifact % Versions.http4s
+    def circe(artifact: String): ModuleID      = "io.circe"     %% artifact % Versions.circe
+    def http4s(artifact: String): ModuleID     = "org.http4s"   %% artifact % Versions.http4s
+    def enumeratum(artifact: String): ModuleID = "com.beachape" %% artifact % Versions.enumeratum
 
     lazy val cats       = "org.typelevel" %% "cats-core"   % Versions.cats
     lazy val catsEffect = "org.typelevel" %% "cats-effect" % Versions.catsEffect
@@ -33,6 +35,9 @@ object Dependencies {
     lazy val circeGenericExt = circe("circe-generic-extras")
     lazy val circeParser     = circe("circe-parser")
     lazy val pureConfig      = "com.github.pureconfig" %% "pureconfig" % Versions.pureConfig
+
+    lazy val enumeratum: ModuleID      = enumeratum("enumeratum")
+    lazy val enumeratumCirce: ModuleID = enumeratum("enumeratum-circe")
 
     // Compiler plugins
     lazy val kindProjector = "org.typelevel" %% "kind-projector" % Versions.kindProjector cross CrossVersion.full
