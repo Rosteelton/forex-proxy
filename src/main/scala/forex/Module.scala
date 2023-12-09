@@ -10,11 +10,13 @@ import org.http4s.implicits._
 import org.http4s.server.middleware.{ AutoSlash, Timeout }
 import sttp.client3.SttpBackend
 
-class Module[F[_]: Concurrent: Timer](config: ApplicationConfig, client: SttpBackend[F, Any]) {
+class Module[F[_]: Concurrent: Timer](config: ApplicationConfig,
+                                      client: SttpBackend[F, Any],
+                                      ratesCache: RatesCacheService[F]) {
 
   private val ratesService: RatesService[F] = RatesServices.impl[F](client, config.oneFrameApi)
 
-  private val ratesProgram: RatesProgram[F] = RatesProgram[F](ratesService)
+  private val ratesProgram: RatesProgram[F] = RatesProgram[F](ratesService, ratesCache)
 
   private val ratesHttpRoutes: HttpRoutes[F] = new RatesHttpRoutes[F](ratesProgram).routes
 

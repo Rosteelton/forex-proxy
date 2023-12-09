@@ -2,6 +2,7 @@ package forex.domain
 
 import enumeratum.EnumEntry.Uppercase
 import enumeratum._
+import forex.domain.Rate.Pair
 
 sealed trait Currency extends EnumEntry with Uppercase
 object Currency extends Enum[Currency] with CirceEnum[Currency] {
@@ -17,12 +18,12 @@ object Currency extends Enum[Currency] with CirceEnum[Currency] {
 
   val values: IndexedSeq[Currency] = findValues
 
-  val allPairs: List[(Currency, Currency)] = {
+  val allPairs: List[Pair] = {
     (for {
       value1 <- values
       value2 <- values
     } yield {
-      if (value1 != value2) List((value1, value2)) else List.empty
+      if (value1 != value2) List(Pair(value1, value2)) else List.empty
     }).flatten.toList
   }
 }

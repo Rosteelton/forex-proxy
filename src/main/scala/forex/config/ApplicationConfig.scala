@@ -6,7 +6,8 @@ import scala.concurrent.duration.FiniteDuration
 
 case class ApplicationConfig(
     http: HttpConfig,
-    oneFrameApi: OneFrameApiConfig
+    oneFrameApi: OneFrameApiConfig,
+    ratesCache: RatesCacheConfig
 )
 
 case class HttpConfig(
@@ -19,4 +20,8 @@ case class OneFrameApiConfig(
     baseUrl: Uri,
     token: String,
     timeout: FiniteDuration
+)
+
+case class RatesCacheConfig(
+    ttl: FiniteDuration
 )

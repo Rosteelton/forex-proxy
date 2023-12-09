@@ -3,6 +3,7 @@ package forex
 import scala.concurrent.ExecutionContext
 import cats.effect._
 import forex.config._
+import forex.services.RatesCacheService
 import fs2.Stream
 import org.http4s.blaze.server.BlazeServerBuilder
 import sttp.client3.SttpBackend
@@ -27,7 +28,8 @@ class Application[F[_]: ConcurrentEffect: Timer] {
   def stream(ec: ExecutionContext, sttpBackend: SttpBackend[F, Any]): Stream[F, Unit] =
     for {
       config <- Config.stream("app")
-      module = new Module[F](config, sttpBackend)
+      ratesCacheService <- Stream.eval(RatesCacheService.impl[F](config.ratesCache))
+      module = new Module[F](config, sttpBackend, ratesCacheService)
       _ <- BlazeServerBuilder[F](ec)
             .bindHttp(config.http.port, config.http.host)
             .withHttpApp(module.httpApp)
