@@ -16,4 +16,13 @@ object Currency extends Enum[Currency] with CirceEnum[Currency] {
   case object USD extends Currency
 
   val values: IndexedSeq[Currency] = findValues
+
+  val allPairs: List[(Currency, Currency)] = {
+    (for {
+      value1 <- values
+      value2 <- values
+    } yield {
+      if (value1 != value2) List((value1, value2)) else List.empty
+    }).flatten.toList
+  }
 }
