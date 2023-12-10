@@ -49,6 +49,8 @@ scalacOptions ++= Seq(
 resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
+testFrameworks += new TestFramework("weaver.framework.CatsEffect")
+
 libraryDependencies ++= Seq(
   compilerPlugin(Libraries.kindProjector),
   Libraries.enumeratum,
@@ -72,5 +74,6 @@ libraryDependencies ++= Seq(
   Libraries.logback,
   Libraries.scalaTest      % Test,
   Libraries.scalaCheck     % Test,
-  Libraries.catsScalaCheck % Test
+  Libraries.catsScalaCheck % Test,
+  Libraries.weaverCats     % Test,
 )
