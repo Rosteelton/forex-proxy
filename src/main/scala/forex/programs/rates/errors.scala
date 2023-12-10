@@ -1,7 +1,7 @@
 package forex.programs.rates
 
 import forex.services.rates.errors.{ Error => RatesServiceError }
-``
+
 import scala.util.control.NoStackTrace
 
 object errors {

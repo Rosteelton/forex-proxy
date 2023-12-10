@@ -1,9 +1,9 @@
 package forex.http.rates
 
-import forex.domain.Currency
-import org.http4s.{ ParseFailure, QueryParamDecoder }
-import org.http4s.dsl.impl.QueryParamDecoderMatcher
 import cats.syntax.either._
+import forex.domain.Currency
+import org.http4s.dsl.impl.ValidatingQueryParamDecoderMatcher
+import org.http4s.{ ParseFailure, QueryParamDecoder }
 
 object QueryParams {
 
@@ -12,7 +12,7 @@ object QueryParams {
       s => Currency.withNameEither(s).leftMap(_ => new ParseFailure(s"Unknown currency: $s", ""))
     )
 
-  object FromQueryParam extends QueryParamDecoderMatcher[Currency]("from")
-  object ToQueryParam extends QueryParamDecoderMatcher[Currency]("to")
+  object FromQueryParam extends ValidatingQueryParamDecoderMatcher[Currency]("from")
+  object ToQueryParam extends ValidatingQueryParamDecoderMatcher[Currency]("to")
 
 }

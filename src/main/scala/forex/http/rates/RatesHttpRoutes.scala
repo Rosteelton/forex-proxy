@@ -17,12 +17,19 @@ class RatesHttpRoutes[F[_]: Sync](rates: RatesProgram[F]) extends Http4sDsl[F] {
   private[http] val prefixPath = "/rates"
 
   private val httpRoutes: HttpRoutes[F] = HttpRoutes.of[F] {
-    case GET -> Root :? FromQueryParam(from) +& ToQueryParam(to) =>
-      rates.get(RatesProgramProtocol.GetRatesRequest(from, to)).flatMap {
-        case Right(result)                => Ok(result.asGetApiResponse)
-        case Left(Error.InvalidData(msg)) => BadRequest(msg)
-        case Left(error)                  => InternalServerError(error.getMessage)
-      }
+    case GET -> Root :? FromQueryParam(fromV) +& ToQueryParam(toV) =>
+      fromV
+        .andThen(from => toV.map(to => (from, to)))
+        .fold(
+          errors => BadRequest(errors.toList.mkString(", ")), {
+            case (from, to) =>
+              rates.get(RatesProgramProtocol.GetRatesRequest(from, to)).flatMap {
+                case Right(result)                => Ok(result.asGetApiResponse)
+                case Left(Error.InvalidData(msg)) => BadRequest(msg)
+                case Left(error)                  => InternalServerError(error.getMessage)
+              }
+          }
+        )
   }
 
   val routes: HttpRoutes[F] = Router(
