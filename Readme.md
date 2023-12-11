@@ -1,5 +1,7 @@
 # Currency exchange proxy #
 
+Task description can be [found here](./Task.md).
+
 ## How to run
 
 1. Run one-frame container
@@ -19,6 +21,10 @@ Server will be started at localhost:8080
 ```
 curl --location 'localhost:8080/rates?from=USD&to=JPY'
 ```
+
+4. Run tests
+
+```sbt test```
 
 ## Design and assumptions
 
